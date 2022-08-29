@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
@@ -8,45 +10,72 @@ using namespace std;
 
 int n, t;
 int b[16];
-int dp[3601];
 
-// SO. How do I account for the values being negative.
-void calc() {
-    for (int i = 0; i < 3601; i++) dp[i] = maxVal;
-    dp[0] = 0;
+int graph[3601][16];
+int dist[3601];
+int queued[3601];
 
-    int i = 0;
-    int end = 0;
-    // standard dp stuff
-    for (; i < n; i++) {
-        if (b[i] < 0) break;
+void buildGraph() {
+    for (int i = 0; i < 3601; i++) {
+        dist[i] = maxVal;
+        queued[i] = 0;
+        for (int j = 0; j < 16; j++) {
+            graph[i][j] = -1;
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
         if (b[i] == 0) continue;
-        for (int j = b[i]; j < 3601; j++) {
-            dp[j] = min(dp[j - b[i]] + 1, dp[j]);
+        if (b[i] > 0) {
+            for (int j = b[i]; j < 3601; j++) {
+                graph[j - b[i]][i] = j;
+            }
+            for (int j = 3600 - b[i]; j < 3601; j++) {
+                graph[j][i] = 3600;
+            }
         }
-        // 1hr is always reachable;
-        end = 3600 / b[i];
-        end += (3600 % b[i] == 0) ? 0 : 1;
-        dp[3600] = min(end, dp[3600]);
-    }
-
-    // he somehow got very quick runtime...
-    // you can figure out all numbers attainable under a limit, figure out associate number of presses and bounds,
-
-    // improve minimum button presses with negative numbers.
-    for (; i < n; i++) {
-        for (int j = 3600; j >= -b[i]; j--) {
-            dp[j + b[i]] = min(dp[j] + 1, dp[j + b[i]]);
+        else {
+            for (int j = -b[i]; j < 3601; j++) {
+                graph[j][i] = j + b[i];
+            }
         }
     }
+}
 
-    for (int j = t; j < 3601; j++) {
-        if (dp[j] != maxVal) {
-            cout << dp[j] << " " << j - t << "\n";
+
+void djikstras() {
+    priority_queue <pair<int, int>, vector<pair<int, int> >, greater<pair<int, int> > > heap;
+
+    heap.push(make_pair(0, 0));
+    dist[0] = 0;
+    queued[0] = 1;
+
+    int node, neighbor;
+    while (heap.size() != 0) {
+        node = heap.top().second;
+        // cout << "node: " << node << " " << "dist: " << dist[node] << "\n";
+        heap.pop();
+        for (int j = 0; j < 16; j++) {
+            neighbor = graph[node][j];
+            if (neighbor == -1) continue;
+            dist[neighbor] = min(dist[neighbor], dist[node] + 1);
+            if (!queued[neighbor]) { 
+                heap.push(make_pair(dist[neighbor], neighbor)); 
+                queued[neighbor] = 1; 
+            }
+        }
+    }
+}
+
+void calc() {
+    buildGraph();
+    djikstras();
+    for (int i = t; i < 3601; i++) {
+        if (dist[i] != maxVal) {
+            cout << dist[i] << " " << i - t << "\n";
             return;
         }
     }
-    return;
 }
 
 int main() {
@@ -57,8 +86,6 @@ int main() {
         for (int k = 0; k < n; k++) {
             scanf("%d", &b[k]);
         }
-        sort(b, b + n, greater<int>());
-        // rewrite with djikstras...
         calc();
     }
 }
