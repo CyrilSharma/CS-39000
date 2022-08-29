@@ -26,6 +26,9 @@
         "iterator": "cpp",
         "chrono": "cpp",
         "limits": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "deque": "cpp",
+        "map": "cpp",
+        "unordered_map": "cpp"
     }
 }
