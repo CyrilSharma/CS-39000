@@ -29,6 +29,7 @@
         "type_traits": "cpp",
         "deque": "cpp",
         "map": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "queue": "cpp"
     }
 }

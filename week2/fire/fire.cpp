@@ -5,14 +5,14 @@
 
 using namespace std;
 
+#define maxDist 1000000000
+
 bool outOfBounds(int x, int y, int w, int h) {
-    if (x < 0 || x > w-1 || y < 0 || y > h-1) return true;
-    return false;
+    return (x < 0 || x > w-1 || y < 0 || y > h-1);
 }
 
 bool onBoundary(int x, int y, int w, int h) {
-    if (x == 0 || x == w-1 || y == 0 || y == h-1) return true;
-    return false;
+    return (x == 0 || x == w-1 || y == 0 || y == h-1);
 }
 
 int main() {
@@ -32,69 +32,60 @@ int main() {
                 map[i][j] = line[j];
             }
         }
-        queue<pair<int, int>> q;
-        vector<vector<int>> dist(h, vector<int>(w));
-        vector<vector<int>> queued(h, vector<int>(w));
-        vector<vector<int>> fireMap(h, vector<int>(w));
-        dist[start.first][start.second] = 0;
-        queued[start.first][start.second] = 1;
-        q.push(start);
 
-        pair<int, int> pos;
         int dx[4] = {1, -1, 0, 0};
         int dy[4] = {0, 0, 1, -1};
-        int x, y, fireCounter;
+
+        queue<pair<int, int>> fq;
+        vector<vector<int>> fdist(h, vector<int>(w, maxDist));
+        // run BFS for all fire tiles.
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                if (map[i][j] == '*') {
+                    fq.push(make_pair(i, j));
+                    fdist[i][j] = 0;
+                }
+            }
+        }
+
+        pair<int, int> pos;
+        while (fq.size() != 0) {
+            pos = fq.front(); fq.pop();
+            for (int i = 0; i < 4; i++) {
+                int x = pos.second + dx[i]; int y = pos.first + dy[i];
+                if (outOfBounds(x, y, w, h)) continue;
+                if (map[y][x] == '#' || map[y][x] == '*') continue;
+                if (fdist[y][x] <= fdist[pos.first][pos.second] + 1) continue;
+                else {
+                    fq.push(make_pair(y, x));
+                    fdist[y][x] = fdist[pos.first][pos.second] + 1;
+                }
+            }
+        }
+
         bool solFound = false;
-        fireCounter = 0;
-        // potentially slow if that path is long, because there's an N^2 update each iteration of the BFS...
-        // how can you find a path to an exit that fire doesn't block, without simulation? Fire travels in the same way
-        // simulate in from an exit, see if you hit fire first or the player.
-        // the issue here is that you could potentially end up simulating from every exit, which could be quite expensive.
-        // iterate over exits.
-        // first, run BFS on entire map, find all the closest exits.
-        // then, run BFS from each exit, seeing if you find the player or the fire first. 
-        // if you find the fire first, the exit doesn't work, if you find the player, then you're CHILLING. return the dist.
+        queue<pair<int, int>> q;
+        vector<vector<int>> dist(h, vector<int>(w, maxDist));
+        dist[start.first][start.second] = 0;
+        q.push(start);
         while (q.size() != 0) {
             pos = q.front(); q.pop();
             if (onBoundary(pos.second, pos.first, w, h)) {
-                cout << dist[pos.first][pos.second]+1 << "\n";
                 solFound = true;
+                cout << dist[pos.first][pos.second] + 1 << "\n";
                 break;
             }
-
-            // when we've exhausted all places reachable in time t, simulate another step.
-            if (dist[pos.first][pos.second] > fireCounter) {
-                fireCounter++;
-                for (int i = 0; i < h; i++) {
-                    for (int j = 0; j < w; j++) {
-                        if (map[i][j] != '*') continue;
-                        for (int k = 0; k < 4; k++) {
-                            x = j + dx[k]; y = i + dy[k];
-                            if (outOfBounds(x,y,w,h)) continue;
-                            if (map[y][x] == '.' || map[y][x] == '@') {
-                                fireMap[y][x] = 1;
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < h; i++) {
-                    for (int j = 0; j < w; j++) {
-                        if (fireMap[i][j]) map[i][j] = '*';
-                    }
-                }
-            }
-
             for (int i = 0; i < 4; i++) {
-                x = pos.second + dx[i]; y = pos.first + dy[i];
+                int x = pos.second + dx[i]; int y = pos.first + dy[i];
                 if (outOfBounds(x, y, w, h)) continue;
-                if (map[y][x] == '#' || map[y][x] == '*') continue;
-                if (!queued[y][x]) {
+                if (map[y][x] == '#') continue;
+                if (dist[pos.first][pos.second] + 1 >= fdist[y][x]) continue;
+                if (dist[y][x] == maxDist) {
                     q.push(make_pair(y, x));
                     dist[y][x] = dist[pos.first][pos.second] + 1;
-                    queued[y][x] = 1;
                 }
             }
-        }   
+        }
         if (!solFound) cout << "IMPOSSIBLE\n";
     }
 }

@@ -1,0 +1,11 @@
+no real "clever" solution.
+basically, whenever you find an exit, do a BFS from all the fire nodes to update the map.
+check if your exit is still valid. if it is, you've won! if not continue BFSing on the new firey board.
+^ still probably takes too long, there's a lot of exits, and that's a lot of BFSs.
+
+either, figure out an efficient way to simulate the fire, or figure out some trick to circumvent that.
+
+one approach is to run a BFS from each exit. if the search hits fire before the player, that exit is infeasible.
+
+another approach is to run a BFS from each fire, and compare the time it reaches a spot to the time the player reaches a spot. more specifically...
+1. you could run a BFS for each fire (you would have to actually?) and create a heat map which indicates how long it would take the fire to get to a given square. then you'd run a BFS from the player, deliberately ignoring all squares which the fire was active on. Of course, this is really slow if there's a ton of fire. You could make it faster by only adding running BFS from squares which don't have fire obv. Should be roughly O(nodes)?
