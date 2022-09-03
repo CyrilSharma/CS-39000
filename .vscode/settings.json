@@ -30,6 +30,11 @@
         "deque": "cpp",
         "map": "cpp",
         "unordered_map": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "complex": "cpp",
+        "cmath": "cpp",
+        "iostream": "cpp",
+        "regex": "cpp",
+        "stack": "cpp"
     }
 }
