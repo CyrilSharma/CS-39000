@@ -35,6 +35,7 @@
         "cmath": "cpp",
         "iostream": "cpp",
         "regex": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "valarray": "cpp"
     }
 }
