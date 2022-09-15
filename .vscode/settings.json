@@ -36,6 +36,8 @@
         "iostream": "cpp",
         "regex": "cpp",
         "stack": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "list": "cpp",
+        "unordered_set": "cpp"
     }
 }
