@@ -1,3 +1,6 @@
+// Author: Cyril Sharma
+// It is ok to post my anonymized solution
+
 #include <iostream>
 #include <fstream>
 #include <math.h>

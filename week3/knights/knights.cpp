@@ -1,3 +1,6 @@
+// Author: Cyril Sharma
+// It is ok to post my anonymized solution
+
 #include <iostream>
 #include <fstream>
 #include <math.h>
@@ -11,7 +14,8 @@ using namespace std;
 
 #define maxVal 1e9
 
-typedef vector<char> vc; typedef vector<vector<char>> vvc;
+typedef vector<char> vc; 
+typedef vector<vector<char>> vvc;
 
 // Easiest way I could think to validate a solution.
 vvc sol = {
