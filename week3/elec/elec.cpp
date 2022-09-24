@@ -1,3 +1,15 @@
+/**
+ * @author Cyril Sharma
+ * @note It is ok to post my anonymized solution
+ * @date 2022-09-23
+ * @brief This a standard knapsack problem.
+ * Knapsack problems consist of trying to get the highest value sack with a bunch of nodes.
+ * Each node has some cost, and some value. In this case, the cost is the number of voters to persuade,
+ * the value is the number of electors we get in exchange.
+ * Since we can only use each node (i.e a state) once, we iterate backwards over the array, 
+ * ensuring paths cannot be made by stacking the same node.
+ * Then, we find the minimum cost path that gets us at least half the electors.
+ */
 #include <vector>
 #include <iostream>
 

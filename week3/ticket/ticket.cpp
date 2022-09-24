@@ -1,8 +1,17 @@
-#include <vector>
-#include <iostream>
-#include <queue>
-#include <tuple>
-
+/**
+ * @author Cyril Sharma
+ * @note It is ok to post my anonymized solution.
+ * @date 2022-09-23
+ * @brief There are two possible ways to pay for your nth vacation
+ * 1. Buy a single ticket - cost is the minimum cost of the n-1th vacation + ticket price
+ * 2. Have your costs covered by a period ticket
+ *  - For each trip, add the date to which the period ticket (if you bought it then) would expire.
+ *  - Also add the total cost of the path up to the ticket.
+ *  - If the cost of your path is cheaper then what's in the queue, remove what's in the queue.
+ *  - Thus, you only need to check the first element of the queue to determine the cheapest path from a     *  - period ticket.
+ * 3. Repeat these steps until you reach the nth vacation.
+ */
+#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
@@ -10,7 +19,6 @@ int main() {
     cin >> s >> p >> m >> n;
     using ll = long long;
     using vll = vector<ll>;
-
     vll mincost(n+1,0);
     queue<pair<int,ll>> cover;
     cover.push({m-1, 0});

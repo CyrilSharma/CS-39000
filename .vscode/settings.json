@@ -48,6 +48,8 @@
         "forward_list": "cpp",
         "initializer_list": "cpp",
         "span": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "__node_handle": "cpp",
+        "bitset": "cpp"
     }
 }
