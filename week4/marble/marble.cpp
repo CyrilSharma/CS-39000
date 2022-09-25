@@ -3,7 +3,7 @@
  * @note It is ok to post my anonymized solution.
  * @brief Child First Tree Traversal.
  * The error in marbles can be determined by 1 - num_marbles.
- * If the error is positive, you have to few marbles, if it's negative you have too many.
+ * If the error is positive, you have too few marbles, if it's negative you have too many.
  * If we add the total error for the children of a node, and compare it to the number of marbles
  * in the node, we can see whether the node itself has too many, or too few marbles.
  * Thus, solve the error for all the children then parents until you have all the errors.

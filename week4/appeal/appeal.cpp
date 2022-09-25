@@ -2,8 +2,8 @@
  * @author Cyril Sharma
  * @note It is ok to post my anonymized solution.
  * @brief Greedy + Child First Tree Traversal.
- * The first step to solving this is to realize that more skilled the player, the more games they should play 
- * to maximize the total appeal. 
+ * The first step to solving this is to realize that the more skilled the player, the more games they should
+ * play to maximize the total appeal. 
  * This allows us to make a greedy algorithm, find the longest streak of games the best player can win, 
  * multiply the length of the streak with the players skill to get the total amount of appeal he
  * contributes.
