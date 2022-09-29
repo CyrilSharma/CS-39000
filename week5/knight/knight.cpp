@@ -1,16 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 int main() {
+    // Note to self, never assume the answer fits within integer bounds...
     int n, m, u, v, w;
     cin >> n >> m;
     using vi = vector<int>;
+    using ll = long long;
+    using vll = vector<ll>;
 
-    vi mat(n);
+    vll mat(n);
     for (int i = 0; i < n; i++) {
         cin >> mat[i];
     }
 
-    vector<vector<pair<int,int>>> graph(n);
+    vector<vector<pair<int,ll>>> graph(n);
     vector<vi> parent(n);
     for (int i = 0; i < m; i++) {
         cin >> u >> v >> w;
@@ -18,31 +21,25 @@ int main() {
         parent[u].push_back(v);
     }
 
-    vi roots;
+    queue<pair<int,ll>> q;
     for (int i = 0; i < n; i++) {
-        if (parent[i].size() == 0)
-            roots.push_back(i);
+        if (parent[i].size() == 0) {
+            q.push({i, mat[i]});
+        }
     }
     
-    vi req(mat); vi vis(n);
-    function<void(int,int)> search;
-    search = [&](int node, int amount) {
-        if (graph[node].size() == 0) {
-            return;
-        }
+    vll req(mat);
+    vi count(n);
+    while (q.size() != 0) {
+        auto [node, amount] = q.front(); q.pop();
         for (auto [child, num]: graph[node]) {
-            if (vis[child] == 0) {
-                search(child, num * amount + mat[child]);
-                vis[child] = 1;
-            }
-            else 
-                search(child, num * amount);
             req[child] += num * amount;
+            count[child]++;
+            if (count[child] == parent[child].size()) {
+                q.push({child, req[child]});
+            }
         }
-    };
-
-    for (auto r: roots)
-        search(r, mat[r]);
+    }
 
     for (auto r: req) 
         cout << r << " ";
