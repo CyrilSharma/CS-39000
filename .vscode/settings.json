@@ -50,6 +50,22 @@
         "span": "cpp",
         "ranges": "cpp",
         "__node_handle": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "ratio": "cpp",
+        "__config": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp",
+        "streambuf": "cpp",
+        "atomic": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cstring": "cpp",
+        "cwchar": "cpp",
+        "memory_resource": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "numeric": "cpp",
+        "scoped_allocator": "cpp",
+        "optional": "cpp"
     }
 }

@@ -1,3 +1,12 @@
+/**
+ * @author Cyril Sharma
+ * @note It is ok to post my anonymized solution.
+ * @brief Kruskals.
+ * I'm not sure if there is a way to do this with Prims, as you are essentially forced to use
+ * certain edges. With Kruskal's this is a very simple contraint though, just connect everything
+ * it says is already connected (first e nodes, p cables), then add edges until you have a DSU of size n.
+ * @date 2022-10-13
+ */
 #include <bits/stdc++.h>
 using namespace std;
 

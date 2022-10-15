@@ -1,3 +1,14 @@
+/**
+ * @author Cyril Sharma
+ * @note It is ok to post my anonymized solution.
+ * @brief Kruskals.
+ * We are given the length of paths which connect all nodes a to b.
+ * The shortest of these paths are necessarily direct connections between nodes.
+ * Thus, Kruskals will automatically find the MST, as the nodes which aren't direct connections
+ * or in other words, aren't roads, are longer then direct connections and hence won't be used.
+ * We add roads until our MST has exactly n nodes.
+ * @date 2022-10-13
+ */
 #include <bits/stdc++.h>
 using namespace std;
 

@@ -1,3 +1,15 @@
+/**
+ * @author Cyril Sharma
+ * @note It is ok to post my anonymized solution.
+ * @brief Track merges.
+ * Instinctively, BFS seems to be the natural approach to this problem, but it's unfortunately really slow,
+ * As each integer which describes a person can potentially allow them to be connected to everyone else!
+ * A faster way to find paths is instead to have one representative for each number (the first node described
+ * by that number) and then whenever a node with that number is found you merge it into the UF.
+ * Since each merge connects nodes that weren't previously connected, it's sufficient to keep track of all 
+ * the merges, and the print them out at the end.
+ * @date 2022-10-13
+ */
 #include <bits/stdc++.h>
 using namespace std;
 
