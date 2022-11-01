@@ -1,37 +1,41 @@
+/**
+ * @author Cyril Sharma
+ * @note It is ok to post my anonymized solution.
+ * @brief Brute Force with Caching
+ * Scan the line of pebbles, and try every valid move.
+ * States are passed using 23 bits in an integer.
+ * Simply remember previous calls, and that's sufficient to pass
+ * As there are only 2^23 states.
+ * @date 2022-10-21
+ */
 #include <bits/stdc++.h>
 using namespace std;
 int main() {
     int w = 23;
     vector<int> dp(1<<23, 2e9);
-    function<void(int,int,int,int)> calc;
-    calc = [&](int b, int d, int l, int num) {
-        if (d == b) {
-            return;
-            dp[num] = b;
-            for (int i = 1; i < w-1; i++) {
-                int b1, b2, b3;
-                b1 = (num & (1 << (i-1))) >> (i-1);
-                b2 = (num & (1 << i)) >> i;
-                b3 = (num & (1 << (i+1))) >> (i+1);
-                // legality conditions
-                if (b2 == 0) continue;
-                if (b1 == b3) continue;
-                // turn off middle bit and toggle appropriate bits.
-                int nnum = num & ~(1 << i);
-                nnum ^= (1 << (i-1));
-                nnum ^= (1 << (i+1));
-                dp[num] = min(dp[num], dp[nnum]); 
-            }
-            return;
+    function<int(int)> calc;
+    calc = [&](int num) {
+        if (dp[num] != 2e9) return dp[num];
+        int nbits = 0;
+        for (int i = 0; i < w; i++) {
+            int b1, b2, b3;
+            b2 = (num & (1 << i)) >> i;
+            nbits += b2;
+
+            if (i == 0 || i == w-1) continue;
+            b1 = (num & (1 << (i-1))) >> (i-1);
+            b3 = (num & (1 << (i+1))) >> (i+1);
+            // legality conditions
+            if (b2 == 0) continue;
+            if (b1 == b3) continue;
+            // turn off middle bit and toggle appropriate bits.
+            int nnum = num & ~(1 << i);
+            nnum ^= (1 << (i-1));
+            nnum ^= (1 << (i+1));
+            dp[num] = min(dp[num], calc(nnum)); 
         }
-        // turn on bits until there are b bits on.
-        for (int i = l; i < w; i++) {
-            calc(b, d+1, i+1, num | 1 << i);
-        }
+        return dp[num] = min(nbits, dp[num]);
     };
-    for (int b = 1; b <= w; b++) {
-        calc(b, 0, 0, 0);
-    }
 
     int n; cin >> n;
     for (int i = 0; i < n; i++) {
@@ -40,6 +44,6 @@ int main() {
             char c; cin >> c;
             if (c == 'o') state |= 1 << j;
         }
-        cout << state << " " << dp[state] << "\n";
+        cout << calc(state) << "\n";
     }
 }

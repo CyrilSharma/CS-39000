@@ -1,3 +1,15 @@
+/**
+ * @author Cyril Sharma
+ * @note It is ok to post my anonymized solution.
+ * @brief Topological Traversal.
+ * The tricky part of this problem is working with the data.
+ * I used maps to allow me to make a graph directly on the page numbers.
+ * Then, I performed a topological traversal of the tree starting from the end nodes
+ * Denoted with pages -1, 0. 
+ * The number of ways to reach a node is the sum of the number of ways the children
+ * of the node can be reached.
+ * @date 2022-10-21
+ */
 #include <bits/stdc++.h>
 using namespace std;
 int main() {

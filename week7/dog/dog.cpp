@@ -1,3 +1,11 @@
+/**
+ * @author Cyril Sharma
+ * @note It is ok to post my anonymized solution.
+ * @brief Standard DP
+ * Use DP to figure out what amounts are creatable using packs of hotdogs and buns.
+ * Then, find the minimum value that is craftable with both hotdogs and buns.
+ * @date 2022-10-21
+ */
 #include <bits/stdc++.h>
 using namespace std;
 int main() {
